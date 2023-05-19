@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +26,13 @@ SECRET_KEY = 'django-insecure-86+et*3d+!-4%dwygh7dt7g4p2agwlxh)%po#^uqk+br-4w+*)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'main.apps.MainConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,10 +76,14 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ["DATABASE_NAME"],
+        "USER": os.environ["DATABASE_USER"],
+        "PASSWORD": os.environ["DATABASE_PASSWORD"],
+        "HOST": os.environ["DATABASE_HOST"],
+        "PORT": os.environ["DATABASE_PORT"],
+    },
 }
 
 
@@ -98,6 +104,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'main.User'
 
 
 # Internationalization
