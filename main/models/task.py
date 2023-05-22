@@ -5,11 +5,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Task(models.Model):
-    header = models.CharField(max_length=50)
-    body = models.CharField(max_length=1000)
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=1000)
     created_date = models.DateField(auto_now_add=True)
     modified_date = models.DateField(auto_now=True)
-    deadline_date = models.DateField()
+    deadline_date = models.DateField(null=True, blank=True)
 
     class States(models.TextChoices):
         NEWTASK = "new_task", _("New task")
@@ -27,7 +27,10 @@ class Task(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, related_name="author"
     )
-    executor = models.ForeignKey(
+    assignee = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True, related_name="executor"
     )
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
+
+    def __str__(self):
+        return self.title + " (" + str(self.id) + ")"
