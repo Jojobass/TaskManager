@@ -7,17 +7,21 @@ from rest_framework.test import APIClient, APITestCase
 
 from main.models import Tag, Task, User
 
+
 class TestAdmin(APITestCase):
     client: APIClient
     admin: User
+
     @classmethod
     def setUpTestData(cls) -> None:
         super().setUpTestData()
-        cls.admin = User.objects.create_superuser("test@test.ru", email=None, password=None)
+        cls.admin = User.objects.create_superuser(
+            "test@test.ru", email=None, password=None
+        )
         cls.client = APIClient()
         cls.client.force_login(cls.admin)
-        print('login complete')
-    
+        print("login complete")
+
     @classmethod
     def assert_forms(
         cls, model: Type[models.Model], key: int, check_actions: Container = ()
@@ -34,7 +38,6 @@ class TestAdmin(APITestCase):
             response = cls.client.get(url)
             assert response.status_code == HTTPStatus.OK, response.content
 
-
     def test_user(self) -> None:
         self.assert_forms(User, self.admin.id)
 
@@ -45,4 +48,3 @@ class TestAdmin(APITestCase):
     def test_task(self) -> None:
         task = Task.objects.create()
         self.assert_forms(Task, task.id)
-
