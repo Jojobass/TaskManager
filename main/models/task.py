@@ -25,10 +25,14 @@ class Task(models.Model):
     )
     priority = models.BooleanField(default=False)
     author = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="author"
+        User, on_delete=models.SET_NULL, null=True, related_name="author_task"
     )
     assignee = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True, related_name="executor"
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="assignee_task",
     )
     tags = models.ManyToManyField(Tag, blank=True)
 
