@@ -28,7 +28,7 @@ class TaskSerializer(serializers.ModelSerializer):
     tags = TagSerializer(required=False, many=True)
 
     class Meta:
-        model = Tag
+        model = Task
         fields = (
             "title",
             "description",
@@ -51,7 +51,7 @@ class TaskSerializer(serializers.ModelSerializer):
         if assignee_data:
             assignee, created = User.objects.get_or_create(**assignee_data)
             task.assignee = assignee
-        task.tags.set(self.get_or_create_packages(tags_data))
+        task.tags.set(self.get_or_create_tags(tags_data))
         return task
 
     def update(self, instance, validated_data):
