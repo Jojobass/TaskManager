@@ -20,7 +20,6 @@ class TestAdmin(APITestCase):
         )
         cls.client = APIClient()
         cls.client.force_login(cls.admin)
-        print("login complete")
 
     @classmethod
     def assert_forms(
