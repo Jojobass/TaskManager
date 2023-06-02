@@ -12,14 +12,18 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "email",
             "role",
-        )  # 'date_of_birth', 'phone' (are they necessary?)
+        )
         read_only_fields = ["id"]
 
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ("title",)
+        fields = (
+            "id",
+            "title",
+        )
+        read_only_fields = ["id"]
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -30,6 +34,7 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = (
+            "id",
             "title",
             "description",
             "created_date",
@@ -41,3 +46,4 @@ class TaskSerializer(serializers.ModelSerializer):
             "assignee",
             "tags",
         )
+        read_only_fields = ["id"]
