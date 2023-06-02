@@ -10,10 +10,7 @@ from .serializers import UserSerializer, TagSerializer, TaskSerializer
 class IsStaffDeletePolicy(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method == "DELETE":
-            if request.user.is_staff:
-                return True
-            else:
-                return False
+            return request.user.is_staff
         return True
 
 
