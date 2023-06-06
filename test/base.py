@@ -33,7 +33,6 @@ class TestViewSetBase(APITestCase):
     def create(self, data: dict, args: List[Union[str, int]] = None) -> dict:
         self.client.force_login(self.user)
         response = self.client.post(self.list_url(args), data=data, format="json")
-        # print(response.data)
         assert response.status_code == HTTPStatus.CREATED, response.content
         return response.data
 
