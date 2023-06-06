@@ -3,14 +3,41 @@ from typing import List, Union
 
 from django.urls import reverse
 from rest_framework.test import APIClient, APITestCase
+from factory.django import DjangoModelFactory
+from factory import PostGenerationMethodCall, LazyAttribute
+from faker import Faker
 
 from main.models import User
+
+fake = Faker()
+
+
+def generate_username(*args):
+    """returns a random username"""
+    return fake.profile(fields=["username"])["username"]
+
+
+class UserFactory(DjangoModelFactory):
+    username = LazyAttribute(generate_username)
+    password = PostGenerationMethodCall("set_password", "password")
+    is_staff = False
+
+    class Meta:
+        model = User
 
 
 class TestViewSetBase(APITestCase):
     user: User = None
     client: APIClient = None
     basename: str
+    token_url = reverse("token_obtain_pair")
+    refresh_token_url = reverse("token_refresh")
+
+    @classmethod
+    def token_request(cls, password: str = "password"):
+        return cls.client.post(
+            cls.token_url, data={"username": cls.user.username, "password": password}
+        )
 
     @classmethod
     def setUpTestData(cls) -> None:
@@ -18,9 +45,14 @@ class TestViewSetBase(APITestCase):
         cls.user = cls.create_api_user()
         cls.client = APIClient()
 
+    def setUp(self):
+        response = self.token_request()
+        token = response.json()["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+
     @classmethod
     def create_api_user(cls):
-        return User.objects.create(**cls.user_attributes)
+        return UserFactory.create(**cls.user_attributes)
 
     @classmethod
     def detail_url(cls, key: int) -> str:
@@ -33,7 +65,6 @@ class TestViewSetBase(APITestCase):
     def create(self, data: dict, args: List[Union[str, int]] = None) -> dict:
         self.client.force_login(self.user)
         response = self.client.post(self.list_url(args), data=data, format="json")
-        # print(response.data)
         assert response.status_code == HTTPStatus.CREATED, response.content
         return response.data
 

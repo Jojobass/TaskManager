@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import viewsets, permissions
+from rest_framework.settings import api_settings
 import django_filters
 from .models import User, Task, Tag
 from .serializers import UserSerializer, TagSerializer, TaskSerializer
@@ -55,14 +56,14 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.order_by("id")
     serializer_class = UserSerializer
     filterset_class = UserFilter
-    permission_classes = (IsStaffDeletePolicy,)
+    permission_classes = (IsStaffDeletePolicy, *api_settings.DEFAULT_PERMISSION_CLASSES)
 
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.order_by("id")
     serializer_class = TagSerializer
     filterset_class = TagFilter
-    permission_classes = (IsStaffDeletePolicy,)
+    permission_classes = (IsStaffDeletePolicy, *api_settings.DEFAULT_PERMISSION_CLASSES)
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -73,4 +74,4 @@ class TaskViewSet(viewsets.ModelViewSet):
     )
     serializer_class = TaskSerializer
     filterset_class = TaskFilter
-    permission_classes = (IsStaffDeletePolicy,)
+    permission_classes = (IsStaffDeletePolicy, *api_settings.DEFAULT_PERMISSION_CLASSES)
