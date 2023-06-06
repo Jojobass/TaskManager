@@ -12,6 +12,8 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "email",
             "role",
+            "date_of_birth",
+            "phone",
         )
         read_only_fields = ["id"]
 
@@ -27,7 +29,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    author = UserSerializer(required=False) # for testing sake
+    author = UserSerializer(required=False)  # for testing sake
     assignee = UserSerializer(required=False)
     tags = TagSerializer(required=False, many=True)
 

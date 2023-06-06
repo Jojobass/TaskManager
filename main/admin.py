@@ -17,7 +17,17 @@ task_manager_admin_site = TaskManagerAdminSite(name="Task manager admin")
 class UserAdmin(DefaultUserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password", "role")}),
-        ("Personal info", {"fields": (("first_name", "last_name"), "email")}),
+        (
+            "Personal info",
+            {
+                "fields": (
+                    ("first_name", "last_name"),
+                    "date_of_birth",
+                    "email",
+                    "phone",
+                )
+            },
+        ),
         (
             "Permissions",
             {

@@ -9,6 +9,8 @@ class TestUserViewSet(TestViewSetBase):
         "last_name": "Smith",
         "email": "john@test.com",
         "role": "developer",
+        "date_of_birth": "2001-01-01",
+        "phone": "1111111111",
     }
 
     @staticmethod
@@ -26,6 +28,8 @@ class TestUserViewSet(TestViewSetBase):
             "last_name": "for testing",
             "email": "user@test.com",
             "role": "developer",
+            "date_of_birth": "2000-01-01",
+            "phone": "0000000000",
         }
         user = self.create(data)
         expected_response = self.expected_details(user, data)
@@ -55,6 +59,8 @@ class TestUserViewSet(TestViewSetBase):
             "last_name": "for testing",
             "email": "user@test.com",
             "role": "developer",
+            "date_of_birth": "2000-01-01",
+            "phone": "0000000000",
         }
         user = self.create(data)
         response = self.delete(user["id"])
@@ -70,6 +76,8 @@ class TestUserDeleteByStaff(TestViewSetBase):
         "email": "john@test.com",
         "role": "developer",
         "is_staff": True,
+        "date_of_birth": "2001-01-01",
+        "phone": "1111111111",
     }
 
     def test_delete(self):
@@ -79,6 +87,8 @@ class TestUserDeleteByStaff(TestViewSetBase):
             "last_name": "for testing",
             "email": "user@test.com",
             "role": "developer",
+            "date_of_birth": "2000-01-01",
+            "phone": "0000000000",
         }
         user = self.create(data)
         response = self.delete(user["id"])
