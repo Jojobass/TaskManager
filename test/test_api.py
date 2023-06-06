@@ -16,9 +16,9 @@ class TestDeletePermissionsViewSet(APITestCase):
         cls.permission_check = IsStaffDeletePolicy()
         cls.factory = RequestFactory()
 
-    def create_user(self, is_staff_):
-        user = User(username="test_user", password="pass", is_staff=is_staff_)
-        user.username = "staff_user" if is_staff_ else "non_staff_user"
+    def create_user(self, is_staff):
+        user = User(password="pass", is_staff=is_staff)
+        user.username = "staff_user" if is_staff else "non_staff_user"
         user.save()
 
         return user
