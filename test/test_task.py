@@ -4,7 +4,7 @@ from main.models import User
 from datetime import date
 
 
-class TestUserViewSet(TestViewSetBase):
+class TestTaskViewSet(TestViewSetBase):
     basename = "tasks"
     user_attributes = {
         "username": "johnsmith",
@@ -13,84 +13,67 @@ class TestUserViewSet(TestViewSetBase):
         "email": "john@test.com",
         "role": "developer",
     }
-    user_data = {
+    user_attributes1 = {
         "username": "user_for_testing",
         "first_name": "user",
         "last_name": "for testing",
         "email": "user@test.com",
         "role": "developer",
     }
-    task_data = {"title": "test_task", "description": "test task desc"}
+    task_attributes = {
+        "title": "test_task",
+        "description": "test task desc",
+        "created_date": str(date.today()),
+        "modified_date": str(date.today()),
+        "state": "new_task",
+        "priority": False,
+    }
 
     @staticmethod
     def expected_details(entity: dict, attributes: dict):
-        return {**attributes, "id": entity["id"]}
-
-    @staticmethod
-    def expected_list(entities: list[dict], attributes: dict):
-        return [{**attributes, "id": entities[0]["id"]}]
+        return {
+            **attributes,
+            "id": entity["id"],
+            "author": None,
+            "assignee": None,
+            "deadline_date": None,
+            "tags": [],
+        }
 
     def test_create(self):
-        print(self.task_data)
-        task = self.create(self.task_data)
-        expected_response = self.expected_details(task, self.task_data)
-        assert {
-            key: task[key] for key in ["id", "title", "description"]
-        } == expected_response
+        print(self.task_attributes)
+        task = self.create(self.task_attributes)
+        expected_response = self.expected_details(task, self.task_attributes)
+        assert task == expected_response
 
     def test_list(self):
-        task = self.create(self.task_data)
-        tasks = self.list(self.task_data)
-        expected_response = self.expected_list(tasks, self.task_data)
-        assert {
-            key: list(map(dict, tasks))[0][key]
-            for key in ["id", "title", "description"]
-        } == expected_response[0]
+        self.create(self.task_attributes)
+        tasks = self.list(self.task_attributes)
+        expected_response = self.expected_details(tasks[0], self.task_attributes)
+        assert tasks == [expected_response]
 
     def test_retrieve(self):
-        task = self.create(self.task_data)
+        task = self.create(self.task_attributes)
         task = self.retrieve(task["id"])
-        expected_response = self.expected_details(task, self.task_data)
-        assert {
-            key: task[key] for key in ["id", "title", "description"]
-        } == expected_response
+        expected_response = self.expected_details(task, self.task_attributes)
+        assert task == expected_response
 
     def test_update(self):
-        task = self.create(self.task_data)
-        new_task_data = self.task_data.copy()
+        task = self.create(self.task_attributes)
+        new_task_data = self.task_attributes.copy()
         new_task_data["title"] = "new_test_task"
         task = self.update(task["id"], new_task_data)
         expected_response = self.expected_details(task, new_task_data)
-        assert {
-            key: task[key] for key in ["id", "title", "description"]
-        } == expected_response
+        assert task == expected_response
 
-    def test_delete(self):
-        task = self.create(self.task_data)
+    def test_delete_not_staff(self):
+        task = self.create(self.task_attributes)
         response = self.delete(task["id"])
         assert response
 
-
-class TestTagDeleteByStaff(TestViewSetBase):
-    basename = "tasks"
-    user_attributes = {
-        "username": "johnsmith",
-        "first_name": "John",
-        "last_name": "Smith",
-        "email": "john@test.com",
-        "role": "developer",
-        "is_staff": True,
-    }
-    user_data = {
-        "username": "user_for_testing",
-        "first_name": "user",
-        "last_name": "for testing",
-        "email": "user@test.com",
-        "role": "developer",
-    }
-    task_data = {"title": "test_task", "description": "test task desc"}
-
-    def test_delete(self):
-        task = self.create(self.task_data)
+    def test_delete_staff(self):
+        self.user.is_staff = True
+        self.user.save()
+        task = self.create(self.task_attributes)
         response = self.delete(task["id"])
         assert response == None
