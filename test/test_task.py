@@ -30,7 +30,7 @@ class TestTaskViewSet(TestViewSetBase):
     }
 
     @staticmethod
-    def expected_details(entity: dict, attributes: dict):
+    def expected_details(entity: dict, attributes: dict) -> dict:
         return {
             **attributes,
             "id": entity["id"],
@@ -40,25 +40,24 @@ class TestTaskViewSet(TestViewSetBase):
             "tags": [],
         }
 
-    def test_create(self):
-        print(self.task_attributes)
+    def test_create(self) -> None:
         task = self.create(self.task_attributes)
         expected_response = self.expected_details(task, self.task_attributes)
         assert task == expected_response
 
-    def test_list(self):
+    def test_list(self) -> None:
         self.create(self.task_attributes)
         tasks = self.list(self.task_attributes)
         expected_response = self.expected_details(tasks[0], self.task_attributes)
         assert tasks == [expected_response]
 
-    def test_retrieve(self):
+    def test_retrieve(self) -> None:
         task = self.create(self.task_attributes)
         task = self.retrieve(task["id"])
         expected_response = self.expected_details(task, self.task_attributes)
         assert task == expected_response
 
-    def test_update(self):
+    def test_update(self) -> None:
         task = self.create(self.task_attributes)
         new_task_data = self.task_attributes.copy()
         new_task_data["title"] = "new_test_task"
@@ -66,12 +65,12 @@ class TestTaskViewSet(TestViewSetBase):
         expected_response = self.expected_details(task, new_task_data)
         assert task == expected_response
 
-    def test_delete_not_staff(self):
+    def test_delete_not_staff(self) -> None:
         task = self.create(self.task_attributes)
         response = self.delete(task["id"])
         assert response
 
-    def test_delete_staff(self):
+    def test_delete_staff(self) -> None:
         self.user.is_staff = True
         self.user.save()
         task = self.create(self.task_attributes)

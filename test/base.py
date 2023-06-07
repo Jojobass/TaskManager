@@ -19,7 +19,7 @@ class TestViewSetBase(APITestCase):
         cls.client = APIClient()
 
     @classmethod
-    def create_api_user(cls):
+    def create_api_user(cls) -> User:
         return User.objects.create(**cls.user_attributes)
 
     @classmethod
@@ -30,10 +30,13 @@ class TestViewSetBase(APITestCase):
     def list_url(cls, args: List[Union[str, int]] = None) -> str:
         return reverse(f"{cls.basename}-list", args=args)
 
+    @staticmethod
+    def expected_details(entity: dict, attributes: dict) -> dict:
+        return {**attributes, "id": entity["id"]}
+
     def create(self, data: dict, args: List[Union[str, int]] = None) -> dict:
         self.client.force_login(self.user)
         response = self.client.post(self.list_url(args), data=data, format="json")
-        # print(response.data)
         assert response.status_code == HTTPStatus.CREATED, response.content
         self.client.logout()
         return response.data
