@@ -2,6 +2,7 @@ from http import HTTPStatus
 from typing import List, Union
 
 from django.urls import reverse
+from django.http import HttpResponse
 from rest_framework.test import APIClient, APITestCase
 from factory.django import DjangoModelFactory
 from factory import PostGenerationMethodCall, LazyAttribute
@@ -13,7 +14,6 @@ fake = Faker()
 
 
 def generate_username(*args):
-    """returns a random username"""
     return fake.profile(fields=["username"])["username"]
 
 
@@ -34,7 +34,7 @@ class TestViewSetBase(APITestCase):
     refresh_token_url = reverse("token_refresh")
 
     @classmethod
-    def token_request(cls, password: str = "password"):
+    def token_request(cls, password: str = "password") -> HttpResponse:
         return cls.client.post(
             cls.token_url, data={"username": cls.user.username, "password": password}
         )
@@ -45,13 +45,13 @@ class TestViewSetBase(APITestCase):
         cls.user = cls.create_api_user()
         cls.client = APIClient()
 
-    def setUp(self):
+    def setUp(self) -> None:
         response = self.token_request()
         token = response.json()["access"]
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
 
     @classmethod
-    def create_api_user(cls):
+    def create_api_user(cls) -> User:
         return UserFactory.create(**cls.user_attributes)
 
     @classmethod
@@ -61,6 +61,10 @@ class TestViewSetBase(APITestCase):
     @classmethod
     def list_url(cls, args: List[Union[str, int]] = None) -> str:
         return reverse(f"{cls.basename}-list", args=args)
+
+    @staticmethod
+    def expected_details(entity: dict, attributes: dict) -> dict:
+        return {**attributes, "id": entity["id"]}
 
     def create(self, data: dict, args: List[Union[str, int]] = None) -> dict:
         self.client.force_login(self.user)

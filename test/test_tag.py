@@ -12,28 +12,24 @@ class TestTagViewSet(TestViewSetBase):
     }
     tag_attributes = {"title": "test_tag"}
 
-    @staticmethod
-    def expected_details(entity: dict, attributes: dict):
-        return {**attributes, "id": entity["id"]}
-
-    def test_create(self):
+    def test_create(self) -> None:
         tag = self.create(self.tag_attributes)
         expected_response = self.expected_details(tag, self.tag_attributes)
         assert tag == expected_response
 
-    def test_list(self):
+    def test_list(self) -> None:
         self.create(self.tag_attributes)
         tags = self.list(self.tag_attributes)
         expected_response = self.expected_details(tags[0], self.tag_attributes)
         assert tags == [expected_response]
 
-    def test_retrieve(self):
+    def test_retrieve(self) -> None:
         tag = self.create(self.tag_attributes)
-        tag = self.retrieve(tag["id"])
-        expected_response = self.expected_details(tag, self.tag_attributes)
-        assert tag == expected_response
+        tag1 = self.retrieve(tag["id"])
+        expected_response = self.expected_details(tag1, self.tag_attributes)
+        assert tag1 == expected_response
 
-    def test_update(self):
+    def test_update(self) -> None:
         tag = self.create(self.tag_attributes)
         new_tag_data = self.tag_attributes.copy()
         new_tag_data["title"] = "new_test_tag"
@@ -41,15 +37,14 @@ class TestTagViewSet(TestViewSetBase):
         expected_response = self.expected_details(tag, new_tag_data)
         assert tag == expected_response
 
-    def test_delete_not_staff(self):
+    def test_delete_not_staff(self) -> None:
         tag = self.create(self.tag_attributes)
         response = self.delete(tag["id"])
         assert response
 
-    def test_delete_staff(self):
+    def test_delete_staff(self) -> None:
         self.user.is_staff = True
         self.user.save()
-        print(self.user.is_staff)
         tag = self.create(self.tag_attributes)
         response = self.delete(tag["id"])
         assert response == None
