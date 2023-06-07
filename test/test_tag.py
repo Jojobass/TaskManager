@@ -18,24 +18,22 @@ class TestTagViewSet(TestViewSetBase):
         assert tag == expected_response
 
     def test_list(self) -> None:
-        self.create(self.tag_attributes)
-        tags = self.list(self.tag_attributes)
-        expected_response = self.expected_details(tags[0], self.tag_attributes)
-        assert tags == [expected_response]
+        tag_created = self.create(self.tag_attributes)
+        tags_list = self.list()
+        assert tags_list == [tag_created]
 
     def test_retrieve(self) -> None:
-        tag = self.create(self.tag_attributes)
-        tag1 = self.retrieve(tag["id"])
-        expected_response = self.expected_details(tag1, self.tag_attributes)
-        assert tag1 == expected_response
+        tag_created = self.create(self.tag_attributes)
+        tag_retrieved = self.retrieve(tag_created["id"])
+        assert tag_retrieved == tag_created
 
     def test_update(self) -> None:
-        tag = self.create(self.tag_attributes)
-        new_tag_data = self.tag_attributes.copy()
-        new_tag_data["title"] = "new_test_tag"
-        tag = self.update(tag["id"], new_tag_data)
-        expected_response = self.expected_details(tag, new_tag_data)
-        assert tag == expected_response
+        tag_created = self.create(self.tag_attributes)
+        new_tag_attributes = self.tag_attributes.copy()
+        new_tag_attributes["title"] = "new_test_tag"
+        tag_updated = self.update(tag_created["id"], new_tag_attributes)
+        expected_response = self.expected_details(tag_created, new_tag_attributes)
+        assert tag_updated == expected_response
 
     def test_delete_not_staff(self) -> None:
         tag = self.create(self.tag_attributes)

@@ -28,21 +28,24 @@ class TestUserViewSet(TestViewSetBase):
         assert user == expected_response
 
     def test_list(self) -> None:
-        users = self.list(self.user_attributes)
-        expected_response = self.expected_details(users[0], self.user_attributes)
-        assert users == [expected_response]
+        user_created = self.create(self.user_attributes1)
+        user_default = self.user_attributes.copy()
+        user_default['id'] = self.user.id
+        users_list = self.list()
+        assert users_list == [user_default, user_created]
 
     def test_retrieve(self) -> None:
-        user = self.retrieve(self.user.id)
-        expected_response = self.expected_details(user, self.user_attributes)
-        assert user == expected_response
+        user_created = self.create(self.user_attributes1)
+        user_retrieved = self.retrieve(user_created['id'])
+        assert user_retrieved == user_created
 
     def test_update(self) -> None:
-        new_user_attributes = self.user_attributes.copy()
+        user_created = self.create(self.user_attributes1)
+        new_user_attributes = self.user_attributes1.copy()
         new_user_attributes["first_name"] = "User"
-        user = self.update(self.user.id, new_user_attributes)
-        expected_response = self.expected_details(user, new_user_attributes)
-        assert user == expected_response
+        user_updated = self.update(user_created['id'], new_user_attributes)
+        expected_response = self.expected_details(user_created, new_user_attributes)
+        assert user_updated == expected_response
 
     def test_delete_not_staff(self) -> None:
         user = self.create(self.user_attributes1)
