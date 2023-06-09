@@ -18,6 +18,9 @@ class TestViewSetBase(APITestCase):
         cls.user = cls.create_api_user()
         cls.client = APIClient()
 
+    def setUp(self):
+        self.client.force_login(self.user)
+
     @classmethod
     def create_api_user(cls) -> User:
         return User.objects.create(**cls.user_attributes)
@@ -35,39 +38,29 @@ class TestViewSetBase(APITestCase):
         return {**attributes, "id": entity["id"]}
 
     def create(self, data: dict, args: List[Union[str, int]] = None) -> dict:
-        self.client.force_login(self.user)
         response = self.client.post(self.list_url(args), data=data, format="json")
         assert response.status_code == HTTPStatus.CREATED, response.content
-        self.client.logout()
         return response.data
 
     def list(self, data: dict = None, args: List[Union[str, int]] = None) -> dict:
-        self.client.force_login(self.user)
         response = self.client.get(self.list_url(args), data=data)
         assert response.status_code == HTTPStatus.OK, response.content
-        self.client.logout()
         return response.data
 
     def retrieve(self, key: int) -> dict:
-        self.client.force_login(self.user)
         response = self.client.get(self.detail_url(key), data=None)
         assert response.status_code == HTTPStatus.OK, response.content
-        self.client.logout()
         return response.data
 
     def update(self, key: int, data: dict) -> dict:
-        self.client.force_login(self.user)
         response = self.client.put(self.detail_url(key), data=data)
         assert response.status_code == HTTPStatus.OK, response.content
-        self.client.logout()
         return response.data
 
     def delete(self, key: int) -> dict:
-        self.client.force_login(self.user)
         response = self.client.delete(self.detail_url(key), data=None)
         if self.user.is_staff:
             assert response.status_code == HTTPStatus.NO_CONTENT, response.content
         else:
             assert response.status_code == HTTPStatus.FORBIDDEN, response.content
-        self.client.logout()
         return response.data

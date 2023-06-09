@@ -46,24 +46,22 @@ class TestTaskViewSet(TestViewSetBase):
         assert task == expected_response
 
     def test_list(self) -> None:
-        self.create(self.task_attributes)
-        tasks = self.list(self.task_attributes)
-        expected_response = self.expected_details(tasks[0], self.task_attributes)
-        assert tasks == [expected_response]
+        task_created = self.create(self.task_attributes)
+        tasks_list = self.list()
+        assert tasks_list == [task_created]
 
     def test_retrieve(self) -> None:
-        task = self.create(self.task_attributes)
-        task = self.retrieve(task["id"])
-        expected_response = self.expected_details(task, self.task_attributes)
-        assert task == expected_response
+        task_created = self.create(self.task_attributes)
+        task_retrieved = self.retrieve(task_created["id"])
+        assert task_retrieved == task_created
 
     def test_update(self) -> None:
-        task = self.create(self.task_attributes)
-        new_task_data = self.task_attributes.copy()
-        new_task_data["title"] = "new_test_task"
-        task = self.update(task["id"], new_task_data)
-        expected_response = self.expected_details(task, new_task_data)
-        assert task == expected_response
+        task_created = self.create(self.task_attributes)
+        new_task_attributes = self.task_attributes.copy()
+        new_task_attributes["title"] = "new_test_task"
+        task_updated = self.update(task_created["id"], new_task_attributes)
+        expected_response = self.expected_details(task_created, new_task_attributes)
+        assert task_updated == expected_response
 
     def test_delete_not_staff(self) -> None:
         task = self.create(self.task_attributes)
