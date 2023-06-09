@@ -30,20 +30,20 @@ class TestUserViewSet(TestViewSetBase):
     def test_list(self) -> None:
         user_created = self.create(self.user_attributes1)
         user_default = self.user_attributes.copy()
-        user_default['id'] = self.user.id
+        user_default["id"] = self.user.id
         users_list = self.list()
         assert users_list == [user_default, user_created]
 
     def test_retrieve(self) -> None:
         user_created = self.create(self.user_attributes1)
-        user_retrieved = self.retrieve(user_created['id'])
+        user_retrieved = self.retrieve(user_created["id"])
         assert user_retrieved == user_created
 
     def test_update(self) -> None:
         user_created = self.create(self.user_attributes1)
         new_user_attributes = self.user_attributes1.copy()
         new_user_attributes["first_name"] = "User"
-        user_updated = self.update(user_created['id'], new_user_attributes)
+        user_updated = self.update(user_created["id"], new_user_attributes)
         expected_response = self.expected_details(user_created, new_user_attributes)
         assert user_updated == expected_response
 
