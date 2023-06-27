@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: docker-compose --file docker-compose.ci.yml run --rm api bash
+        run: docker-compose --file docker-compose.ci.yml up && docker compose exec api bash
 
       - name: Run tests
         run: make test
