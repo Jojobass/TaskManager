@@ -13,7 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Up container
+        run: docker-compose --file docker-compose.ci.yml up -d
+
+      - name: Run tests
+        run: docker compose exec api make test
       
       - name: Coveralls
         uses: AndreMiras/coveralls-python-action@develop
-        run: docker-compose --file docker-compose.ci.yml run --rm api make test
