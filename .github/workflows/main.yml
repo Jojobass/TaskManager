@@ -18,7 +18,7 @@ jobs:
         run: docker-compose --file docker-compose.ci.yml up -d && docker compose exec api make test
 
       - name: install toml
-        run: python3 -m pip install "coverage[toml]"
+        run: python3 -m pip install "coveralls[toml]"
       
       - name: Coveralls
         uses: AndreMiras/coveralls-python-action@develop
