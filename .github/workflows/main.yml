@@ -1,4 +1,4 @@
-nname: Main
+name: Main
 
 on:
   pull_request:
