@@ -14,10 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
-        env:
-          COVERAGE: true
-          RAILS_ENV: test
-        run: docker-compose --file docker-compose.ci.yml run --rm api pytest
+        run: docker-compose --file docker-compose.ci.yml run --rm api make test
       
       - name: Coveralls
         uses: AndreMiras/coveralls-python-action@develop
