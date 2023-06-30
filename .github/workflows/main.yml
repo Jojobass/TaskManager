@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
 
       - name: Up container
         run: docker-compose --file docker-compose.ci.yml up -d && docker compose exec api make test
