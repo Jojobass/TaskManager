@@ -1,4 +1,4 @@
-name: Main
+nname: Main
 
 on:
   pull_request:
@@ -9,13 +9,15 @@ on:
       - 'develop'
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Up container
-        run: docker-compose --file docker-compose.ci.yml up -d && docker compose exec api make test
+      - name: Run tests
+        env:
+          COVERAGE: true
+          RAILS_ENV: test
+        run: docker-compose --file docker-compose.ci.yml run --rm api pytest
       
       - name: Coveralls
         uses: AndreMiras/coveralls-python-action@develop
