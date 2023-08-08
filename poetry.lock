@@ -272,18 +272,18 @@ yaml = ["PyYAML (>=3.10)"]
 
 [[package]]
 name = "django"
-version = "4.2.2"
+version = "4.1.6"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Django-4.2.2-py3-none-any.whl", hash = "sha256:672b3fa81e1f853bb58be1b51754108ab4ffa12a77c06db86aa8df9ed0c46fe5"},
-    {file = "Django-4.2.2.tar.gz", hash = "sha256:2a6b6fbff5b59dd07bef10bcb019bee2ea97a30b2a656d51346596724324badf"},
+    {file = "Django-4.1.6-py3-none-any.whl", hash = "sha256:c6fe7ebe7c017fe59f1029821dae0acb5a2ddcd6c9a0138fd20a8bfefac914bc"},
+    {file = "Django-4.1.6.tar.gz", hash = "sha256:bceb0fe1a386781af0788cae4108622756cd05e7775448deec04a71ddf87685d"},
 ]
 
 [package.dependencies]
-asgiref = ">=3.6.0,<4"
-sqlparse = ">=0.3.1"
+asgiref = ">=3.5.2,<4"
+sqlparse = ">=0.2.2"
 tzdata = {version = "*", markers = "sys_platform == \"win32\""}
 
 [package.extras]
@@ -480,6 +480,33 @@ files = [
     {file = "mypy_extensions-1.0.0-py3-none-any.whl", hash = "sha256:4392f6c0eb8a5668a69e23d168ffa70f0be9ccfd32b5cc2d26a34ae5b844552d"},
     {file = "mypy_extensions-1.0.0.tar.gz", hash = "sha256:75dbf8955dc00442a438fc4d0666508a9a97b6bd41aa2f0ffe9d2f2725af0782"},
 ]
+
+[[package]]
+name = "newrelic"
+version = "8.9.0"
+description = "New Relic Python Agent"
+optional = false
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*"
+files = [
+    {file = "newrelic-8.9.0-cp27-cp27m-manylinux1_x86_64.whl", hash = "sha256:23450caafa8da15a8a6632642b64a6b1921335a4edd58caeb9f244d740e190b9"},
+    {file = "newrelic-8.9.0-cp27-cp27m-manylinux2010_x86_64.whl", hash = "sha256:13662a5eec5b64a5ec5e220fa1a7ac99c5e7ff6eb868bb303273689e7c90d762"},
+    {file = "newrelic-8.9.0-cp27-cp27mu-manylinux1_x86_64.whl", hash = "sha256:d9b1ad14417e424b8db24c2da9f4f095b4ea3fac27cf6d5efdeebd140ad07086"},
+    {file = "newrelic-8.9.0-cp27-cp27mu-manylinux2010_x86_64.whl", hash = "sha256:755d210314f208735a4e53a8ba124ada00fda1fd3ccbdc6d8f01a0d521711c1f"},
+    {file = "newrelic-8.9.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:54c607fb502582484f3bb0e134b19a3634d9b07e79474082d1cde9ff31616844"},
+    {file = "newrelic-8.9.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4f86037cd179a21efaef52784567c3fc951b400f72fe08567b19d47ab31a6a9d"},
+    {file = "newrelic-8.9.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:260d9536d4a2c910387aa13c91621e88f96567bb4acf7278608cd1905c25808b"},
+    {file = "newrelic-8.9.0-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7eb535500073363d25e14ff4a30379957972339530c600673a7bccb26f009aef"},
+    {file = "newrelic-8.9.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ec36f973d6835eb6a0f27871c0dc8127e8bbc4118c3456dbf3f8ef4aae7d707a"},
+    {file = "newrelic-8.9.0-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:57159c99ee6a37f1e487ac5ab68fd67afd1407da1689705b3560f7a903867453"},
+    {file = "newrelic-8.9.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:fa53d9610ba18a577a3bb62e3fc9e22c13e8b99a88ef8f8f6ebc5538f0390ff0"},
+    {file = "newrelic-8.9.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:732dd981bcda6030c9c377eb8765c60ba5f510ba2052b689cb92a964b16290c0"},
+    {file = "newrelic-8.9.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f249f06dbc8b1a160532ece3d6b1989be1ed63c2fe3f569a8913d7c2f0ee9a7e"},
+    {file = "newrelic-8.9.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f2200b2d4e70b0544a5b99b5103c96eecdf204cc2bbbf499106ad93ebd8f6469"},
+    {file = "newrelic-8.9.0.tar.gz", hash = "sha256:a8e8cdfd5ac5f8e58aa11909921e65b4da8afb721de996cd4ecd5c372e339c3c"},
+]
+
+[package.extras]
+infinite-tracing = ["grpcio", "protobuf"]
 
 [[package]]
 name = "packaging"
@@ -757,6 +784,21 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "rollbar"
+version = "0.16.3"
+description = "Easy and powerful exception tracking with Rollbar. Send messages and exceptions with arbitrary context, get back aggregates, and debug production issues quickly."
+optional = false
+python-versions = "*"
+files = [
+    {file = "rollbar-0.16.3-py3-none-any.whl", hash = "sha256:f06e23b36d7d1b547f32f287da9367b9bf53319f611da0ec9e891859507ac94e"},
+    {file = "rollbar-0.16.3.tar.gz", hash = "sha256:02313dfc60710ec736ab033d0f8c969d857a8b991cd67e0c1a91620e8a04ede2"},
+]
+
+[package.dependencies]
+requests = {version = ">=0.12.1", markers = "python_version >= \"3.6\""}
+six = ">=1.9.0"
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -847,4 +889,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "721a4c7effc8486b8d1283fa8dbd9180f132b79c855016b09ede2768346d581c"
+content-hash = "69be43a4efe8f29eda0dff81446665744da2b8bc8b93b60f64f7b570cdc21317"
