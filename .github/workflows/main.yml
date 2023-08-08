@@ -1,0 +1,20 @@
+name: Main
+
+on:
+  pull_request:
+    branches:
+      - 'develop'
+  push:
+    branches:
+      - 'develop'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: coveralls
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        env: 
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: docker-compose --file docker-compose.ci.yml run --rm api make test COVERALLS_REPO_TOKEN="$COVERALLS_REPO_TOKEN"
