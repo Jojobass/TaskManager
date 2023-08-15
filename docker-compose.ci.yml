@@ -20,6 +20,13 @@ services:
     environment:
       <<: *app-config
       <<: *db-config
+      EMAIL_USE_SSL: yes
+      EMAIL_USE_TLS: yes
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_HOST_USER: imalakhov.dev@gmail.com
+      EMAIL_PORT: 465
+      DEFAULT_FROM_EMAIL: imalakhov.dev@gmail.com
+      EMAIL_HOST_PASSWORD: $EMAIL_HOST_PASSWORD
     depends_on:
       - db
     ports:
