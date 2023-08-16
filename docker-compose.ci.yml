@@ -12,6 +12,15 @@ x-db-config: &db-config
   DATABASE_PORT: 5432
   POSTGRES_PASSWORD: postgres
 
+x-smtp-config: &smtp-config
+  EMAIL_USE_SSL: 1
+  EMAIL_USE_TLS: 1
+  EMAIL_HOST: smtp.gmail.com
+  EMAIL_HOST_USER: imalakhov.dev@gmail.com
+  EMAIL_PORT: 465
+  DEFAULT_FROM_EMAIL: imalakhov.dev@gmail.com
+  EMAIL_HOST_PASSWORD: $EMAIL_HOST_PASSWORD
+
 services:
   api:
     image: userapp_api
@@ -20,6 +29,7 @@ services:
     environment:
       <<: *app-config
       <<: *db-config
+      <<: *smtp-config
     depends_on:
       - db
     ports:

@@ -3,3 +3,5 @@ venv
 __pycache__
 .coverage
 coverage.json
+newrelic.ini
+email_password.txt
