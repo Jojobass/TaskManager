@@ -20,6 +20,15 @@ services:
       DATABASE_HOST: db
       DATABASE_PORT: 5432
       NEW_RELIC_CONFIG_FILE: newrelic.ini
+      EMAIL_USE_SSL: yes
+      EMAIL_USE_TLS: yes
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_HOST_USER: imalakhov.dev@gmail.com
+      EMAIL_PORT: 465
+      DEFAULT_FROM_EMAIL: imalakhov.dev@gmail.com
+      EMAIL_HOST_PASSWORD: $EMAIL_HOST_PASSWORD
+    secrets:
+       - email_password
     command: newrelic-admin run-python manage.py runserver 0.0.0.0:8000
 
   db:
@@ -29,3 +38,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+
+secrets:
+  email_password:
+    file: ./email_password.txt
