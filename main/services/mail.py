@@ -1,5 +1,6 @@
 from django.core import mail
 from django.template.loader import render_to_string
+from task_manager.settings import BASE_DIR
 
 from main.models import Task
 
@@ -8,7 +9,7 @@ def send_assign_notification(task_id: int) -> None:
     task = Task.objects.get(pk=task_id)
     assignee = task.assignee
     send_html_email(
-        subject="You've assigned a task.",
+        subject="You've been assigned a task.",
         template="notification.html",
         context={"task": task},
         recipients=[assignee.email],
