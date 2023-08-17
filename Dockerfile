@@ -40,6 +40,8 @@ WORKDIR /app
 COPY pyproject.toml poetry.lock ./
 RUN poetry install  --no-interaction --no-ansi
 
+RUN export EMAIL_HOST_PASSWORD=`cat /run/secrets/email_password`
+
 ADD . /app
 ENV DJANGO_SETTINGS_MODULE="task_manager.settings"
 
