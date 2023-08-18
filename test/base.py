@@ -7,10 +7,23 @@ from rest_framework.test import APIClient, APITestCase
 from factory.django import DjangoModelFactory
 from factory import PostGenerationMethodCall, LazyAttribute
 from faker import Faker
+from django.core.files.uploadedfile import SimpleUploadedFile
+from faker.providers import BaseProvider
 
 from main.models import User
 
 fake = Faker()
+
+
+class ImageFileProvider(BaseProvider):
+    def image_file(self, fmt: str = "jpeg") -> SimpleUploadedFile:
+        return SimpleUploadedFile(
+            self.generator.file_name(extension=fmt),
+            self.generator.image(image_format=fmt),
+        )
+
+
+fake.add_provider(ImageFileProvider)
 
 
 def generate_username(*args):
@@ -21,6 +34,7 @@ class UserFactory(DjangoModelFactory):
     username = LazyAttribute(generate_username)
     password = PostGenerationMethodCall("set_password", "password")
     is_staff = False
+    avatar_picture = fake.image_file(fmt="jpeg")
 
     class Meta:
         model = User
@@ -67,10 +81,15 @@ class TestViewSetBase(APITestCase):
     def expected_details(entity: dict, attributes: dict) -> dict:
         return {**attributes, "id": entity["id"]}
 
-    def create(self, data: dict, args: List[Union[str, int]] = None) -> dict:
-        response = self.client.post(self.list_url(args), data=data, format="json")
+    def create(
+        self, data: dict, args: List[Union[str, int]] = None, fmt: str = "json"
+    ) -> dict:
+        response = self.client.post(self.list_url(args), data=data, format=fmt)
         assert response.status_code == HTTPStatus.CREATED, response.content
         return response.data
+
+    def request_create(self, data: dict, args: List[Union[str, int]] = None):
+        return self.client.post(self.list_url(args), data=data, format="multipart")
 
     def list(self, data: dict = None, args: List[Union[str, int]] = None) -> dict:
         response = self.client.get(self.list_url(args), data=data)
@@ -83,7 +102,7 @@ class TestViewSetBase(APITestCase):
         return response.data
 
     def update(self, key: int, data: dict) -> dict:
-        response = self.client.put(self.detail_url(key), data=data)
+        response = self.client.put(self.detail_url(key), data=data, format="json")
         assert response.status_code == HTTPStatus.OK, response.content
         return response.data
 

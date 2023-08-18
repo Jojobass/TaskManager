@@ -18,6 +18,7 @@ class FileMaxSizeValidator:
 class UserSerializer(serializers.ModelSerializer):
     avatar_picture = serializers.FileField(
         required=False,
+        allow_empty_file=True,
         validators=[
             FileMaxSizeValidator(UPLOAD_MAX_SIZES["avatar_picture"]),
             FileExtensionValidator(["jpeg", "jpg", "png"]),
